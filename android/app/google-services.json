@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "492623293925",
+    "project_id": "hacken-7a8d1",
+    "storage_bucket": "hacken-7a8d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492623293925:android:16c3128c46ca3894ced30c",
+        "android_client_info": {
+          "package_name": "com.aizensoftwares.hacksociety"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492623293925-b6cqhkcf75gn19kmea4h4s9c330vmlo2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVLXTE_JoykGXLQGNOm5BvAyBltj4bkE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492623293925-b6cqhkcf75gn19kmea4h4s9c330vmlo2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
