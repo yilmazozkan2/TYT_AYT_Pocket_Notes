@@ -20,7 +20,7 @@ class _homePageState extends State<homePage> {
   final TextEditingController _controller = TextEditingController();
   final db = FirebaseFirestore.instance;
   var output;
-  var output2; // ayrı bir text widget da gösterilen, çevrilmiş metin
+  var output2;
   String name = '';
   String etiket = '';
   var tag;
@@ -54,7 +54,7 @@ class _homePageState extends State<homePage> {
             child: Row(
               children: [
                 Text(
-                  'Hackpedia',
+                  'Hacker Community',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 Flexible(
