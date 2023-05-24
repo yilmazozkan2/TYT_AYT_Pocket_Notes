@@ -2,5 +2,4 @@
 
 In this project, localization and firebase were used with getx, 
 a platform application where people working online can instantly share and see what they know in the hacking field.
-
-![Capture2](https://user-images.githubusercontent.com/52213548/228989409-b4ff0688-8883-454b-b6e3-5186622644da.PNG)
+![Apple iPhone 11 Pro Max](https://github.com/yilmazozkan2/Learn_Hacking_Hacker_Community/assets/52213548/ab450da8-9481-49c7-91c4-0f0cb56ea0d3)
