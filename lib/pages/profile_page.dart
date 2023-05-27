@@ -13,6 +13,11 @@ import 'package:untitled1/pages/home_page.dart';
 import 'package:untitled1/pages/login_page.dart';
 import 'package:path/path.dart';
 
+import '../widgets/profile_page/call_image.dart';
+import '../widgets/profile_page/image_and_buttons_field.dart';
+import '../widgets/profile_page/my_post_text.dart';
+import '../widgets/profile_page/top_menu_items.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
   @override
@@ -28,7 +33,8 @@ class KullaniciyaAit extends StatefulWidget {
 
 class _KullaniciyaAitState extends State<KullaniciyaAit> {
   final TextEditingController _controller = TextEditingController();
-  final TextEditingController _controller2 = TextEditingController(text: "entertag".tr);
+  final TextEditingController _controller2 =
+      TextEditingController(text: "entertag".tr);
 
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestoreRef = FirebaseFirestore.instance;
@@ -153,62 +159,15 @@ class _KullaniciyaAitState extends State<KullaniciyaAit> {
 
   TextField EnterTextField() {
     return TextField(
-            decoration: InputDecoration(
-              hintText: "enteratext".tr,
-              filled: true,
-              fillColor: Colors.grey,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(0),
-              ),
-            ),
-            controller: _controller,
-          );
-  }
-
-//Fotoğrafı firebaseden çağırma
-  Widget calImage(BuildContext context) {
-    return Column(
-      children: [
-        StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance
-              .collection('Kullanicilar')
-              .doc(auth.currentUser!.email)
-              .snapshots(),
-          builder: (_, snapshot) {
-            if (snapshot.hasError)
-              return Text('Error = ${snapshot.error}');
-            else if (snapshot.hasData) {
-              output = snapshot.data!.data();
-              return Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    output!['imageUrl'] == ""
-                        ? CircleAvatar(
-                            radius: 55,
-                            backgroundImage: NetworkImage(output['imageUrl']))
-                        : Center(
-                            child: CircleAvatar(
-                                radius: 55,
-                                backgroundImage:
-                                    NetworkImage(output['imageUrl'])),
-                          ),
-                    Padding(
-                      padding: ProjectDecorations.onlyLeftPadding,
-                      child: Text(
-                        output['KullaniciEposta'],
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return Center(child: CircularProgressIndicator());
-          },
-        )
-      ],
+      decoration: InputDecoration(
+        hintText: "enteratext".tr,
+        filled: true,
+        fillColor: Colors.grey,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(0),
+        ),
+      ),
+      controller: _controller,
     );
   }
 
@@ -226,221 +185,117 @@ class _KullaniciyaAitState extends State<KullaniciyaAit> {
 
   Widget ProfileSkeleton(BuildContext context) {
     return SafeArea(
-        child: Column(
-          children: [
-            TopMenuItems(context),
-            ImageAndButtonsField(context),
-            Padding(
-              padding:
-                  ProjectDecorations.inputPadding,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  MyPostText(context),
-                ],
-              ),
+      child: Column(
+        children: [
+          TopMenuItems(),
+          ImageAndButtonsField(output: output),
+          Padding(
+            padding: ProjectDecorations.inputPadding,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                MyPostText(),
+              ],
             ),
-            myPostsField(),
-            _inputFields(),
-          ],
-        ),
-      );
+          ),
+          myPostsField(),
+          _inputFields(),
+        ],
+      ),
+    );
   }
 
-  Container TopMenuItems(BuildContext context) {
-    return Container(
-            height: 60,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: ['home'.tr, 'profile'.tr, 'signout'.tr]
-                    .map((e) => Container(
-                        margin: ProjectDecorations.symetricPadding,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            if (e == 'home'.tr) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => homePage()),
-                              );
-                            }
-                            if (e == 'signout'.tr) {
-                              FirebaseAuth.instance.signOut();
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      Iskele(),
-                                ),
-                                (route) => false,
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          child: Text(
-                            e,
-                            style: Theme.of(context).textTheme.bodyText1?.copyWith(color:Colors.blue)
-                          ),
-                        )))
-                    .toList()),
-          );
-  }
-
-  Text MyPostText(BuildContext context) {
-    return Text(
-                  'mypost'.tr,
-                  style: Theme.of(context).textTheme.bodyText1
-                );
-  }
-
+  // Bu kod önemli
   Expanded myPostsField() {
     return Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('Paylasimlar')
-                  .where('KullaniciId', isEqualTo: auth.currentUser!.uid)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData)
-                  return new Text(
-                    'loading'.tr
-                  );
-                return new ListView(
-                  shrinkWrap: false,
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    tag = document['etiket'];
-                    return ListTile(
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          //SelectableText!
-                          new SelectableText(
-                            document['paylasimMetni'],
-                            style: Theme.of(context).textTheme.bodyText1
-                          ),
-                          Text(
-                            DateFormat('dd/MM/yyyy     HH:mm').format(
-                              document['paylasimTarihi'].toDate(),
-                            ),
-                            style: Theme.of(context).textTheme.bodyText1
-                          ),
-                          Text('#$tag',
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color:Colors.blue)),
-                          Container(
-                            child: TextFormField(
-                              controller: _controller2,
-                              decoration: InputDecoration.collapsed(
-                                hintText: "entertag".tr,
-                              ),
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.grey),
-                              onChanged: (_val) {
-                                etiket = _val;
-                              },
-                            ),
-                          ),
-                        ],
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('Paylasimlar')
+            .where('KullaniciId', isEqualTo: auth.currentUser!.uid)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) return new Text('loading'.tr);
+          return new ListView(
+            shrinkWrap: false,
+            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+              tag = document['etiket'];
+              return ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    //SelectableText!
+                    new SelectableText(document['paylasimMetni'],
+                        style: Theme.of(context).textTheme.bodyText1),
+                    Text(
+                        DateFormat('dd/MM/yyyy     HH:mm').format(
+                          document['paylasimTarihi'].toDate(),
+                        ),
+                        style: Theme.of(context).textTheme.bodyText1),
+                    Text('#$tag',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(color: Colors.blue)),
+                    Container(
+                      child: TextFormField(
+                        controller: _controller2,
+                        decoration: InputDecoration.collapsed(
+                          hintText: "entertag".tr,
+                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(color: Colors.grey),
+                        onChanged: (_val) {
+                          etiket = _val;
+                        },
                       ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                    onPressed: () {
-                                      FirebaseFirestore.instance
-                                          .collection('Paylasimlar')
-                                          .doc(document.id)
-                                          .update({
-                                        'etiket': etiket,
-                                      });
-                                      _controller2.clear();
-                                    },
-                                    child: Text('savetag'.tr,
-                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color:Colors.blue))),
-                                TextButton(
-                                  onPressed: () => FirebaseFirestore
-                                      .instance
-                                      .collection('Paylasimlar')
-                                      .doc(document.id)
-                                      .delete(),
-                                  child: Text(
-                                    'deletepost'.tr,
-                                    style: Theme.of(context).textTheme.bodyText1?.copyWith(color:Colors.blue),
-                                  ),
-                                ),
-                              ]),
-                        ],
+                    ),
+                  ],
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      TextButton(
+                          onPressed: () {
+                            FirebaseFirestore.instance
+                                .collection('Paylasimlar')
+                                .doc(document.id)
+                                .update({
+                              'etiket': etiket,
+                            });
+                            _controller2.clear();
+                          },
+                          child: Text('savetag'.tr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(color: Colors.blue))),
+                      TextButton(
+                        onPressed: () => FirebaseFirestore.instance
+                            .collection('Paylasimlar')
+                            .doc(document.id)
+                            .delete(),
+                        child: Text(
+                          'deletepost'.tr,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(color: Colors.blue),
+                        ),
                       ),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
+                    ]),
+                  ],
+                ),
+              );
+            }).toList(),
           );
+        },
+      ),
+    );
   }
-
-  SingleChildScrollView ImageAndButtonsField(BuildContext context) {
-    return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      calImage(context),
-                      SizedBox(height: 5),
-
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      OutlinedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          onPressed: () {
-                            _showPicker(context);
-                          },
-                          child: Text(
-                              'selectfromgallery'.tr,
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color:Colors.blue)
-                          )),
-                      SizedBox(width: 5),
-                      OutlinedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          onPressed: () {
-                            uploadProfileImage(auth.currentUser!.uid);
-                          },
-                          child: Text(
-                              'saveselectedimage'.tr,
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color:Colors.blue)
-                          )),
-                    ],
-                  ),
-                ],
-            ),
-          );
-  }
-}
+ }

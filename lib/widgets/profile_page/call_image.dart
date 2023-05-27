@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import '../../constants/padding.dart';
 
 class CallImage extends StatelessWidget {
-  CallImage({super.key});
+  CallImage({
+    super.key,
+    required this.output,
+  });
   FirebaseAuth auth = FirebaseAuth.instance;
   var output;
 
   @override
   Widget build(BuildContext context) {
-   return Column(
+    return Column(
       children: [
         StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
