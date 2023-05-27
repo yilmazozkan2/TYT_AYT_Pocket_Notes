@@ -1,3 +1,4 @@
+# Learn Hacking Hacker Community
 In this project, localization and firebase were used with getx, 
 a platform application where people working online can instantly share and see what they know in the hacking field.
 
