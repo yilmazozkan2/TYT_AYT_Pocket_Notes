@@ -1,21 +1,13 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:translator/translator.dart';
 import 'package:untitled1/constants/padding.dart';
-import 'package:untitled1/pages/home_page.dart';
-import 'package:untitled1/pages/login_page.dart';
-import 'package:path/path.dart';
 
+// Widgets
 import '../widgets/profile_page/delete_post_button.dart';
 import '../widgets/profile_page/image_and_buttons_field.dart';
-import '../widgets/profile_page/my_post_text.dart';
 import '../widgets/profile_page/top_menu_items.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -64,7 +56,6 @@ class _KullaniciyaAitState extends State<KullaniciyaAit> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                MyPostText(),
               ],
             ),
           ),
