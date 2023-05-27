@@ -9,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
 class PickImageGallery extends StatefulWidget {
-  PickImageGallery({super.key});
+  PickImageGallery({super.key, required this.auth});
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   State<PickImageGallery> createState() => _PickImageGalleryState();
@@ -21,7 +22,6 @@ class _PickImageGalleryState extends State<PickImageGallery> {
 
   final ImagePicker _picker = ImagePicker();
   File? file; //galeriden seçilen, yüklenen ve silinen dosya
-  FirebaseAuth auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
   Future _pickImageGallery() async {
@@ -68,7 +68,7 @@ class _PickImageGalleryState extends State<PickImageGallery> {
       if (imageUrl.isNotEmpty) {
         var db = FirebaseFirestore.instance;
         DocumentReference ref =
-            db.collection('Kullanicilar').doc(auth.currentUser!.email);
+            db.collection('Kullanicilar').doc(widget.auth.currentUser!.email);
         ref.set(
           {
             //'KullaniciId': uid,
@@ -78,7 +78,7 @@ class _PickImageGalleryState extends State<PickImageGallery> {
         );
       } else {
         DocumentReference ref =
-            db.collection('Kullanicilar').doc(auth.currentUser!.email);
+            db.collection('Kullanicilar').doc(widget.auth.currentUser!.email);
         ref.set(
           {
             //'KullaniciId': uid,
@@ -119,7 +119,7 @@ class _PickImageGalleryState extends State<PickImageGallery> {
               ),
             ),
             onPressed: () {
-              uploadProfileImage(auth.currentUser!.uid);
+              uploadProfileImage(widget.auth.currentUser!.uid);
             },
             child: Text('saveselectedimage'.tr,
                 style: Theme.of(context)

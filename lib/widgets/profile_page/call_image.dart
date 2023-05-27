@@ -8,6 +8,8 @@ class CallImage extends StatelessWidget {
   CallImage({
     super.key,
     required this.output,
+    required this.auth,
+
   });
   FirebaseAuth auth = FirebaseAuth.instance;
   var output;

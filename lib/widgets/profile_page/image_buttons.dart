@@ -9,14 +9,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
 class ImageButtons extends StatefulWidget {
-  const ImageButtons({super.key});
+  ImageButtons({super.key, required this.auth});
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   State<ImageButtons> createState() => _ImageButtonsState();
 }
 
 class _ImageButtonsState extends State<ImageButtons> {
-  FirebaseAuth auth = FirebaseAuth.instance;
   File? file; //galeriden seçilen, yüklenen ve silinen dosya
   String imageUrl = '';
   final db = FirebaseFirestore.instance;
@@ -39,7 +39,7 @@ class _ImageButtonsState extends State<ImageButtons> {
       if (imageUrl.isNotEmpty) {
         var db = FirebaseFirestore.instance;
         DocumentReference ref =
-            db.collection('Kullanicilar').doc(auth.currentUser!.email);
+            db.collection('Kullanicilar').doc(widget.auth.currentUser!.email);
         ref.set(
           {
             //'KullaniciId': uid,
@@ -49,7 +49,7 @@ class _ImageButtonsState extends State<ImageButtons> {
         );
       } else {
         DocumentReference ref =
-            db.collection('Kullanicilar').doc(auth.currentUser!.email);
+            db.collection('Kullanicilar').doc(widget.auth.currentUser!.email);
         ref.set(
           {
             //'KullaniciId': uid,
@@ -120,7 +120,7 @@ Future _pickImageGallery() async {
               ),
             ),
             onPressed: () {
-              uploadProfileImage(auth.currentUser!.uid);
+              uploadProfileImage(widget.auth.currentUser!.uid);
             },
             child: Text('saveselectedimage'.tr,
                 style: Theme.of(context)

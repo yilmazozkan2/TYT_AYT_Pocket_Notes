@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled1/widgets/profile_page/call_image.dart';
 import 'package:untitled1/widgets/profile_page/image_buttons.dart';
@@ -6,8 +7,9 @@ class ImageAndButtonsField extends StatelessWidget {
   ImageAndButtonsField({
     super.key,
     required this.output,
-  });
 
+  });
+  FirebaseAuth auth = FirebaseAuth.instance;
   var output;
   
   @override
@@ -22,11 +24,11 @@ class ImageAndButtonsField extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CallImage(output: output),
+              CallImage(output: output, auth: auth,),
               SizedBox(height: 5),
             ],
           ),
-          ImageButtons(),
+          ImageButtons(auth: auth,),
         ],
       ),
     );
