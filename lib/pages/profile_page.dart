@@ -439,7 +439,6 @@ class _KullaniciyaAitState extends State<KullaniciyaAit> {
                           )),
                     ],
                   ),
-
                 ],
             ),
           );
