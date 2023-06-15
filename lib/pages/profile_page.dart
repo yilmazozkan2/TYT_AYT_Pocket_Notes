@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:untitled1/pages/fullscreen_page.dart';
+import 'package:untitled1/widgets/profile_page/category_text_form_field.dart';
 
 import '../widgets/profile_page/image_buttons.dart';
+import '../widgets/profile_page/pinterest_style_grid_view.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -15,6 +15,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   var output;
   final auth = FirebaseAuth.instance;
+  final textController = TextEditingController();
+  String category = '';
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +30,20 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget ProfileSkeleton(BuildContext context) {
-    return SafeArea(
-      child: myPostsField(),
-    );
-  }
-
-  Widget myPostsField() {
     return Column(
       children: [
-        ImageButtons(output: output),
+        CategoryTextFormField(
+          textController: textController,
+          onChanged: (value) {
+            setState(() {
+              category = value;
+            });
+          },
+        ),
+        ImageButtons(
+          output: output,
+          category: textController.text,
+        ),
         StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('Kullanicilar')
@@ -47,26 +54,11 @@ class _ProfilePageState extends State<ProfilePage> {
               return Text('Error = ${snapshot.error}');
             else if (snapshot.hasData) {
               output = snapshot.data!.data();
+              var images = output!['images']
+                  .where((image) => image['kategori'] == category)
+                  .toList();
               return Expanded(
-                child: MasonryGridView.builder(
-                  gridDelegate:
-                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                  itemCount: output!['imageUrl'].length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FullScreen(
-                                  imageUrl: output['imageUrl'][index])));
-                        },
-                        child: Image.network(output['imageUrl'][index]),
-                      ),
-                    );
-                  },
-                ),
+                child: PinterestStyleGridView(images: images),
               );
             }
             return Center(child: CircularProgressIndicator());

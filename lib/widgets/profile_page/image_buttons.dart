@@ -10,10 +10,11 @@ import 'package:path/path.dart';
 
 // ignore: must_be_immutable
 class ImageButtons extends StatefulWidget {
-  ImageButtons({super.key, required this.output});
+  ImageButtons({super.key, required this.output, required this.category});
 
   final auth = FirebaseAuth.instance;
   var output;
+  String category;
 
   @override
   State<ImageButtons> createState() => _ImageButtonsState();
@@ -26,7 +27,7 @@ class _ImageButtonsState extends State<ImageButtons> {
   final _picker = ImagePicker();
   final db = FirebaseFirestore.instance;
 
-  uploadProfileImage(String uid) async {
+  uploadImage(String uid, category) async {
     Reference reference = FirebaseStorage.instance
         .ref()
         .child('profileImage/${basename(file!.path)}}');
@@ -39,15 +40,11 @@ class _ImageButtonsState extends State<ImageButtons> {
         DocumentReference ref =
             db.collection('Kullanicilar').doc(widget.auth.currentUser!.email);
         ref.update({
-          'imageUrl': FieldValue.arrayUnion([imageUrl])
+          'images': FieldValue.arrayUnion([
+            {'url': imageUrl, 'kategori': category}
+          ])
         });
       }
-    });
-  }
-
-  void addDatabase() {
-    FirebaseFirestore.instance.collection('Paylasimlar').add({
-      'KullaniciResmi': widget.output['imageUrl'],
     });
   }
 
@@ -85,37 +82,43 @@ class _ImageButtonsState extends State<ImageButtons> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        OutlinedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: GestureDetector(
+            onTap: () => _showPicker(context),
+            child: Container(
+              height: 50,
+              width: 100,
+              color: Colors.red,
+              child: Center(
+                child: Text('selectfromgallery'.tr,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(color: Colors.blue)),
               ),
             ),
-            onPressed: () {
-              _showPicker(context);
-            },
-            child: Text('selectfromgallery'.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(color: Colors.blue))),
+          ),
+        ),
         SizedBox(width: 5),
-        OutlinedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0),
-              ),
+        GestureDetector(
+          onTap: () => uploadImage(
+            widget.auth.currentUser!.uid,
+            widget.category,
+          ),
+          child: Container(
+            height: 50,
+            width: 100,
+            color: Colors.yellow,
+            child: Center(
+              child: Text('saveselectedimage'.tr,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(color: Colors.blue)),
             ),
-            onPressed: () {
-              uploadProfileImage(widget.auth.currentUser!.uid);
-            },
-            child: Text('saveselectedimage'.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(color: Colors.blue))),
+          ),
+        ),
       ],
     );
   }
