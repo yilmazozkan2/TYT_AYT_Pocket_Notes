@@ -9,23 +9,25 @@ class PinterestStyleGridView extends StatelessWidget {
   var images;
   @override
   Widget build(BuildContext context) {
-    return MasonryGridView.builder(
-      gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2),
-      itemCount: images.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      FullScreen(imageUrl: images[index]['url'])));
-            },
-            child: Image.network(images[index]['url']),
-          ),
-        );
-      },
+    return Expanded(
+      child: MasonryGridView.builder(
+        gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2),
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        FullScreen(imageUrl: images[index]['url'])));
+              },
+              child: Image.network(images[index]['url']),
+            ),
+          );
+        },
+      ),
     );
   }
 }
