@@ -8,25 +8,24 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
+// ignore: must_be_immutable
 class ImageButtons extends StatefulWidget {
-  ImageButtons({super.key, required this.auth});
-  FirebaseAuth auth = FirebaseAuth.instance;
+  ImageButtons({super.key, required this.output});
+
+  final auth = FirebaseAuth.instance;
+  var output;
 
   @override
   State<ImageButtons> createState() => _ImageButtonsState();
 }
 
 class _ImageButtonsState extends State<ImageButtons> {
-  File? file; //galeriden seçilen, yüklenen ve silinen dosya
+  File? file;
   String imageUrl = '';
-  final db = FirebaseFirestore.instance;
   var image;
-  final ImagePicker _picker = ImagePicker();
+  final _picker = ImagePicker();
+  final db = FirebaseFirestore.instance;
 
-
-
-/*Firebase firestore veri tabanına resim Yükleme
-  Oturum açmış kullanıcının email adresine göre bilgilerini güncelliyor karışmıyor  */
   uploadProfileImage(String uid) async {
     Reference reference = FirebaseStorage.instance
         .ref()
@@ -35,34 +34,24 @@ class _ImageButtonsState extends State<ImageButtons> {
     TaskSnapshot snapshot = await uploadTask;
     await uploadTask.whenComplete(() async {
       imageUrl = await snapshot.ref.getDownloadURL();
-      //başta gelen imageurl üzerine yazar
       if (imageUrl.isNotEmpty) {
         var db = FirebaseFirestore.instance;
         DocumentReference ref =
             db.collection('Kullanicilar').doc(widget.auth.currentUser!.email);
-        ref.set(
-          {
-            //'KullaniciId': uid,
-            'imageUrl': imageUrl
-          },
-          SetOptions(merge: true),
-        );
-      } else {
-        DocumentReference ref =
-            db.collection('Kullanicilar').doc(widget.auth.currentUser!.email);
-        ref.set(
-          {
-            //'KullaniciId': uid,
-            'imageUrl':
-                'https://upload.wikimedia.org/wikipedia/en/b/bf/Tobey_Maguire_as_Spider-Man.jpg'
-          },
-          SetOptions(merge: true),
-        );
+        ref.update({
+          'imageUrl': FieldValue.arrayUnion([imageUrl])
+        });
       }
     });
   }
 
- void _showPicker(context) async {
+  void addDatabase() {
+    FirebaseFirestore.instance.collection('Paylasimlar').add({
+      'KullaniciResmi': widget.output['imageUrl'],
+    });
+  }
+
+  void _showPicker(context) async {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -83,7 +72,7 @@ class _ImageButtonsState extends State<ImageButtons> {
         });
   }
 
-Future _pickImageGallery() async {
+  Future _pickImageGallery() async {
     image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {

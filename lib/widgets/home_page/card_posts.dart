@@ -1,59 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../constants/padding.dart';
-import 'card_tag.dart';
-import 'card_visit.dart';
 
+// ignore: must_be_immutable
 class CardPosts extends StatelessWidget {
-   CardPosts({super.key, required this.name, required this.tag});
+  CardPosts({super.key});
 
-  final String name;
-  var tag;
-
+  var output;
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: StreamBuilder<QuerySnapshot>(
-        stream: name != "" && name != null
-            ? FirebaseFirestore.instance
-                .collection('Paylasimlar')
-                .where("searchIndex", arrayContains: name)
-                .snapshots()
-            : FirebaseFirestore.instance
-                .collection("Paylasimlar")
-                .orderBy('paylasimTarihi', descending: true)
-                .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData)
-            return new Text(
-              'Loading...',
-            );
-          return new ListView.builder(
-            itemCount: snapshot.data?.docs.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot myPost = snapshot.data!.docs[
-                  index]; // documentsnapshotu dışarıya çıkarma yoksa resimler gözükürken tek resim gözükür
-              tag = myPost['etiket'];
-              return Center(
-                child: Card(
-                  margin: ProjectDecorations.cardPadding,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      CardVisit(myPost: myPost),
-                      ListTile(
-                        title: SelectableText(
-                          myPost['paylasimMetni'],
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ),
-                      CardTag(tag: tag),
-                    ],
-                  ),
+      child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('Paylasimlar')
+            .doc()
+            .snapshots(),
+        builder: (_, snapshot) {
+          if (snapshot.hasError)
+            return Text('Error = ${snapshot.error}');
+          else if (snapshot.hasData) {
+            output = snapshot.data!.data();
+            return Container(
+              child: Padding(
+                padding: ProjectDecorations.allPadding8,
+                child: Column(
+                  children: [
+                    output['KullaniciResmi'] != null
+                        ? CircleAvatar(
+                            radius: 27,
+                            backgroundImage:
+                                NetworkImage(output['KullaniciResmi']))
+                        : CircleAvatar(
+                            radius: 27,
+                            backgroundImage:
+                                NetworkImage(output['KullaniciResmi'])),
+                  ],
                 ),
-              );
-            },
-          );
+              ),
+            );
+          }
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );

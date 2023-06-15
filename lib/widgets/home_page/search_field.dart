@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../constants/padding.dart';
 
+// ignore: must_be_immutable
 class SearchField extends StatefulWidget {
   SearchField({super.key, required this.onSearch});
   Function(String) onSearch;
@@ -49,9 +50,8 @@ class _SearchFieldState extends State<SearchField> {
       ),
     );
   }
-void initiateSearch(String val) {
-  widget.onSearch(val.toLowerCase().trim());
-}
 
-  
+  void initiateSearch(String val) {
+    widget.onSearch(val.toLowerCase().trim());
+  }
 }

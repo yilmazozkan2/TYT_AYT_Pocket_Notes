@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../constants/padding.dart';
 
+// ignore: must_be_immutable
 class PasswordTextField extends StatelessWidget {
-   PasswordTextField({super.key, required this.textController2});
+  PasswordTextField({super.key, required this.textController2});
   TextEditingController textController2 = TextEditingController();
 
   @override
@@ -19,7 +20,7 @@ class PasswordTextField extends StatelessWidget {
               child: Icon(Icons.password),
               width: 18,
             ),
-            hintText: "Password:",
+            hintText: "Şifre:",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(0),
                 borderSide: BorderSide(color: Colors.black, width: 8))),

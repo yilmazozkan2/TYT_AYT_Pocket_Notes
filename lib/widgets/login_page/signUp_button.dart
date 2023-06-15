@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
+// ignore: must_be_immutable
 class SignUpButton extends StatelessWidget {
   SignUpButton({super.key});
   TextEditingController textController1 = TextEditingController();
   TextEditingController textController2 = TextEditingController();
-  
+
   Future<void> kayitOl() async {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
@@ -25,14 +25,17 @@ class SignUpButton extends StatelessWidget {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 300,
       child: ElevatedButton(
           onPressed: () {
-            if(textController1.text.isNotEmpty || textController1.text == ' '
-                && textController2.text.isNotEmpty || textController2.text == ' '){
+            if (textController1.text.isNotEmpty ||
+                textController1.text == ' ' &&
+                    textController2.text.isNotEmpty ||
+                textController2.text == ' ') {
               kayitOl();
             }
           },

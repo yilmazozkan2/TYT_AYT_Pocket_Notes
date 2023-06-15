@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../../constants/padding.dart';
 
+// ignore: must_be_immutable
 class CallImage extends StatelessWidget {
   CallImage({
     super.key,
     required this.output,
     required this.auth,
-
   });
   FirebaseAuth auth = FirebaseAuth.instance;
   var output;

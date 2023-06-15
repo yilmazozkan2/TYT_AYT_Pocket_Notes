@@ -5,10 +5,10 @@ class AppNameText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Text('Hackpedia',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                ?.copyWith(color: Colors.black));
+    return Text('TYT AYT Cep Notları',
+        style: Theme.of(context)
+            .textTheme
+            .headline4
+            ?.copyWith(color: Colors.black));
   }
 }

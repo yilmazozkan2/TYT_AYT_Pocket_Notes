@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/padding.dart';
 
+// ignore: must_be_immutable
 class EmailTextField extends StatelessWidget {
   EmailTextField({super.key, required this.textController1});
   TextEditingController textController1 = TextEditingController();
@@ -20,7 +21,7 @@ class EmailTextField extends StatelessWidget {
             child: Icon(Icons.email),
             width: 18,
           ),
-          hintText: "Email Adress:",
+          hintText: "Kullanıcı Mail Hesabı:",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(0),
           ),

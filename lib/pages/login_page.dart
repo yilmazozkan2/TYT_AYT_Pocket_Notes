@@ -9,8 +9,6 @@ import '../widgets/login_page/app_name_text.dart';
 import '../widgets/login_page/email_text_field.dart';
 import '../widgets/login_page/language_icon_button.dart';
 import '../widgets/login_page/password_text_field.dart';
-import '../widgets/login_page/privacy_policy_link_and_terms_of_service.dart';
-import '../widgets/login_page/signIn_anonymous_button.dart';
 import '../widgets/login_page/signUp_button.dart';
 
 class Iskele extends StatefulWidget {
@@ -19,8 +17,8 @@ class Iskele extends StatefulWidget {
 }
 
 class _IskeleState extends State<Iskele> {
-  final TextEditingController textController1 = TextEditingController();
-  final TextEditingController textController2 = TextEditingController();
+  final textController1 = TextEditingController();
+  final textController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +59,12 @@ class _IskeleState extends State<Iskele> {
           ),
           Container(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 EmailTextField(textController1: textController1),
                 SizedBox(height: 10),
                 PasswordTextField(textController2: textController2),
-                PrivacyPolicyLinkAndTermsOfService(),
                 SizedBox(height: 20),
                 SignUpButton(),
                 SizedBox(
@@ -83,7 +79,6 @@ class _IskeleState extends State<Iskele> {
                               .button
                               ?.copyWith(color: Colors.white))),
                 ),
-                SignInAnonymousButton(),
               ],
             ),
           ),
@@ -99,7 +94,7 @@ class _IskeleState extends State<Iskele> {
         .then((kullanici) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => homePage()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     });
   }
