@@ -2,24 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:untitled1/pages/fullscreen_page.dart';
 
 import '../widgets/profile_page/image_buttons.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Container(child: KullaniciyaAit());
-  }
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class KullaniciyaAit extends StatefulWidget {
-  @override
-  State<KullaniciyaAit> createState() => _KullaniciyaAitState();
-}
-
-class _KullaniciyaAitState extends State<KullaniciyaAit> {
+class _ProfilePageState extends State<ProfilePage> {
   var output;
   final auth = FirebaseAuth.instance;
 
@@ -27,7 +20,6 @@ class _KullaniciyaAitState extends State<KullaniciyaAit> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.light),
       home: Scaffold(
         backgroundColor: Colors.white,
         body: ProfileSkeleton(context),
@@ -56,8 +48,10 @@ class _KullaniciyaAitState extends State<KullaniciyaAit> {
             else if (snapshot.hasData) {
               output = snapshot.data!.data();
               return Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
+                child: MasonryGridView.builder(
+                  gridDelegate:
+                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
                   itemCount: output!['imageUrl'].length,
                   itemBuilder: (context, index) {
                     return Padding(
@@ -68,11 +62,7 @@ class _KullaniciyaAitState extends State<KullaniciyaAit> {
                               builder: (context) => FullScreen(
                                   imageUrl: output['imageUrl'][index])));
                         },
-                        child: CircleAvatar(
-                          radius: 55,
-                          backgroundImage:
-                              NetworkImage(output['imageUrl'][index]),
-                        ),
+                        child: Image.network(output['imageUrl'][index]),
                       ),
                     );
                   },
