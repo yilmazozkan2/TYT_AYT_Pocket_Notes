@@ -14,6 +14,7 @@ dependencies:
 
   cloud_firestore: ^4.8.1
   firebase_auth: ^4.6.3
+  google_sign_in: ^6.1.4
   get: ^4.6.5
   image_picker: ^0.8.6
   firebase_storage: ^11.2.3
@@ -35,8 +36,8 @@ flutter:
 
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  #assets:
-  # - assets/
+assets:
+  - assets/images/google.png
   
   #fonts:
   #       - asset: fonts/Schyler-Italic.ttf

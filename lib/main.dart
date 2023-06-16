@@ -2,15 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:untitled1/LocaleStrings.dart';
-import 'package:untitled1/pages/home_page.dart';
 import 'package:untitled1/pages/profile_page.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await GetStorage.init();
 
   runApp(MyApp());
 }
@@ -55,12 +52,11 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+//kaydolma ekranı başta olmayacak fotoğraf yükleneceği zaman bir sayfa olarak açılsın sadece
 final List<Widget> pages = [
-  HomePage(),
   ProfilePage(),
 ];
 final List<BottomNavigationBarItem> items = [
-  BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
   BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
   BottomNavigationBarItem(icon: Icon(Icons.output), label: "Out"),
 ];
