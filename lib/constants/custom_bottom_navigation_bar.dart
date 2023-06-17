@@ -14,20 +14,20 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: onTap,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
+      items: navigatorItems,
     );
+  }
+
+  List<BottomNavigationBarItem> get navigatorItems {
+    return [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Ana Sayfa',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.exit_to_app_rounded),
+        label: 'Çıkış',
+      ),
+    ];
   }
 }

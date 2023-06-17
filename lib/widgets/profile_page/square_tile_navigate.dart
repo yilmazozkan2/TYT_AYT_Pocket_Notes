@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../pages/sign_page.dart';
 
-MaterialPageRoute<dynamic> SquareTileNavigate(currentIndex) {
+MaterialPageRoute<dynamic> SquareTileNavigate() {
   return MaterialPageRoute(
-    builder: (context) => SignPage(currentIndex: currentIndex),
+    builder: (context) => SignPage(),
   );
 }

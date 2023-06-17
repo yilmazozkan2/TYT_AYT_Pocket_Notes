@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FullScreen extends StatelessWidget {
-  FullScreen({super.key, required this.imageUrl});
+  FullScreen({Key? key, required this.imageUrl}) : super(key: key);
   final String imageUrl;
 
   @override
@@ -13,8 +13,14 @@ class FullScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: Center(
-        child: Image.network(imageUrl),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Image.network(imageUrl),
+            ),
+          ),
+        ],
       ),
     );
   }

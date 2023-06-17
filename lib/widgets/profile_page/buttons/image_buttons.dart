@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 
+//Firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
@@ -22,15 +23,13 @@ class ImageButtons extends StatefulWidget {
 
 class _ImageButtonsState extends State<ImageButtons> {
   File? file;
-  String imageUrl = '';
   var image;
   final _picker = ImagePicker();
   final db = FirebaseFirestore.instance;
-
+  String imageUrl = '';
   uploadImage(String uid, category) async {
-    Reference reference = FirebaseStorage.instance
-        .ref()
-        .child('profileImage/${basename(file!.path)}}');
+    Reference reference =
+        FirebaseStorage.instance.ref().child('images/${basename(file!.path)}');
     UploadTask uploadTask = reference.putFile(File(file!.path));
     TaskSnapshot snapshot = await uploadTask;
     await uploadTask.whenComplete(() async {
@@ -58,7 +57,7 @@ class _ImageButtonsState extends State<ImageButtons> {
               children: <Widget>[
                 new ListTile(
                     leading: new Icon(Icons.photo_library),
-                    title: new Text('gallery'.tr),
+                    title: new Text('Galeri'),
                     onTap: () {
                       _pickImageGallery();
                       Navigator.of(context).pop();
@@ -91,7 +90,7 @@ class _ImageButtonsState extends State<ImageButtons> {
               width: 100,
               color: Colors.red,
               child: Center(
-                child: Text('selectfromgallery'.tr,
+                child: Text('Galeriden Fotoğraf Seç',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
@@ -111,7 +110,7 @@ class _ImageButtonsState extends State<ImageButtons> {
             width: 100,
             color: Colors.yellow,
             child: Center(
-              child: Text('saveselectedimage'.tr,
+              child: Text('Seçilen Fotoğrafı Buluta Kaydet',
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1

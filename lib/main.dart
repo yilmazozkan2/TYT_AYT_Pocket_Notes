@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled1/LocaleStrings.dart';
-import 'package:untitled1/pages/profile_page.dart';
-import 'package:get/get.dart';
+import 'package:untitled1/pages/home_page.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +14,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      translations: LocalString(),
-      locale: Locale('tr', 'TR'),
-      home: ProfilePage(),
+      home: HomePage(),
     );
   }
 }

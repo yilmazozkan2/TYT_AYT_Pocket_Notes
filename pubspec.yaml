@@ -1,28 +1,23 @@
 name: untitled1
 description: A new Flutter project.
-
 version: 1.0.0+1
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
 
-
 dependencies:
   flutter:
     sdk: flutter
-
-
+  
   cloud_firestore: ^4.8.1
   firebase_auth: ^4.6.3
-  google_sign_in: ^6.1.4
-  get: ^4.6.5
-  image_picker: ^0.8.6
   firebase_storage: ^11.2.3
+  google_sign_in: ^6.1.4
+  firebase_core: ^2.14.0
+ 
+  image_picker: ^0.8.6
   path: ^1.8.2
   equatable: ^2.0.3
-  firebase_core: ^2.14.0
-  intl: ^0.17.0
-  get_storage: ^2.0.3
   flutter_staggered_grid_view: ^0.6.2
 
 dev_dependencies:
@@ -32,13 +27,9 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
-
   uses-material-design: true
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/google.png
-  
   #fonts:
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
