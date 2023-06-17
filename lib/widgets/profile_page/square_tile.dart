@@ -13,6 +13,7 @@ class SquareTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       child: Container(
         height: 50,
         width: 50,
@@ -21,7 +22,7 @@ class SquareTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           color: Colors.grey[200],
           image: DecorationImage(
-            image: AssetImage('assets/images/google.png'),
+            image: AssetImage(imagePath),
             fit: BoxFit.cover,
           ),
         ),

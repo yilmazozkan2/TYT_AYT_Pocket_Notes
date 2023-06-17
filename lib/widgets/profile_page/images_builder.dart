@@ -17,6 +17,9 @@ class ImagesBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (auth.currentUser == null) {
+      return Center(child: Text('Soru yüklemek için oturum açın'));
+    }
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       stream: FirebaseFirestore.instance
           .collection('Kullanicilar')
@@ -27,12 +30,17 @@ class ImagesBuilder extends StatelessWidget {
           return Text('Error = ${snapshot.error}');
         else if (snapshot.hasData) {
           output = snapshot.data!.data();
-          var images = output!['images']
-              .where((image) => image['kategori'] == category)
-              .toList();
-          return PinterestStyleGridView(images: images);
+          if (output != null && output!['images'] != null) {
+            var images = output!['images']
+                .where((image) => image['kategori'] == category)
+                .toList();
+            return PinterestStyleGridView(images: images);
+          }
+        } else {
+          return Text('Herhangi Bir Soru Yükleyin');
         }
-        return Center(child: CircularProgressIndicator());
+        return Center(
+            child: Text('Kategori Yazın ve Herhangi Bir Soru Yükleyin'));
       },
     );
   }
