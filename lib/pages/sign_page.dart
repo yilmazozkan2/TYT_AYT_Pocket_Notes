@@ -44,19 +44,37 @@ class _SignPageState extends State<SignPage> {
           }
         },
       ),
-      body: Column(
-        children: [
-          EmailTextFormField(),
-          SizedBox(height: 10),
-          PasswordTextFormField(),
-          SignUpButton(),
-          SignInButton(context)
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            EmailTextFormField(),
+            SizedBox(height: 10),
+            PasswordTextFormField(),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  SignUpButton(),
+                  SizedBox(width: 30.0),
+                  SignInButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  ElevatedButton SignInButton(BuildContext context) {
+  Widget SignUpButton() {
+    return ElevatedButton(
+        onPressed: () => AuthService().registerWithEmailAndPassword(
+            emailController.text, passwordController.text),
+        child: Text('Kaydol'));
+  }
+
+  Widget SignInButton() {
     return ElevatedButton(
         onPressed: () {
           AuthService()
@@ -68,14 +86,7 @@ class _SignPageState extends State<SignPage> {
                     ),
                   ));
         },
-        child: Text('Giriş Yap'));
-  }
-
-  ElevatedButton SignUpButton() {
-    return ElevatedButton(
-        onPressed: () => AuthService().registerWithEmailAndPassword(
-            emailController.text, passwordController.text),
-        child: Text('Kayıt Ol'));
+        child: Text('Giriş yap'));
   }
 
   TextFormField EmailTextFormField() {
@@ -83,9 +94,7 @@ class _SignPageState extends State<SignPage> {
       controller: emailController,
       decoration: InputDecoration(
         hintText: 'Email giriniz',
-        border: InputBorder.none,
-        fillColor: Colors.green,
-        filled: true,
+        border: UnderlineInputBorder(),
       ),
     );
   }
@@ -95,9 +104,7 @@ class _SignPageState extends State<SignPage> {
       controller: passwordController,
       decoration: InputDecoration(
         hintText: 'Şifre giriniz',
-        border: InputBorder.none,
-        fillColor: Colors.green,
-        filled: true,
+        border: UnderlineInputBorder(),
       ),
     );
   }

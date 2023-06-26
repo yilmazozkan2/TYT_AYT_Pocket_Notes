@@ -27,6 +27,7 @@ class _ImageButtonsState extends State<ImageButtons> {
   final _picker = ImagePicker();
   final db = FirebaseFirestore.instance;
   String imageUrl = '';
+
   uploadImage(String uid, category) async {
     Reference reference =
         FirebaseStorage.instance.ref().child('images/${basename(file!.path)}');
@@ -79,46 +80,52 @@ class _ImageButtonsState extends State<ImageButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: GestureDetector(
-            onTap: () => _showPicker(context),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+      child: Row(
+        children: [
+          chooseImageButton(context),
+          SizedBox(width: 15),
+          GestureDetector(
+            onTap: () => uploadImage(
+              widget.auth.currentUser!.uid,
+              widget.category,
+            ),
             child: Container(
               height: 50,
-              width: 100,
-              color: Colors.red,
-              child: Center(
-                child: Text('3. Galeriden Fotoğraf Seç',
+              width: 150,
+              color: Colors.yellow,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('4. Seçilen Fotoğrafı Buluta Kaydet',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        ?.copyWith(color: Colors.white)),
+                        ?.copyWith(color: Colors.black)),
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  GestureDetector chooseImageButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showPicker(context),
+      child: Container(
+        height: 50,
+        width: 100,
+        color: Colors.red,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('3. Galeriden Fotoğraf Seç',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: Colors.white)),
         ),
-        SizedBox(width: 15),
-        GestureDetector(
-          onTap: () => uploadImage(
-            widget.auth.currentUser!.uid,
-            widget.category,
-          ),
-          child: Container(
-            height: 50,
-            width: 100,
-            color: Colors.yellow,
-            child: Center(
-              child: Text('4. Seçilen Fotoğrafı Buluta Kaydet',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(color: Colors.black)),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

@@ -16,8 +16,8 @@ class CategoryTextFormField extends StatelessWidget {
         controller: textController,
         decoration: InputDecoration(
           hintText: 'Kategori yazınız',
-          border: InputBorder.none,
-          fillColor: Colors.green,
+          border: UnderlineInputBorder(),
+          fillColor: Colors.white,
           filled: true,
         ),
         onChanged: onChanged);

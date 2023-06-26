@@ -54,17 +54,22 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Text(
-          'Seçilen fotoğraf kaydedildikten sonra gecikmeli olarak gelebiliyor, biraz beklemeniz gerekebilir.',
+          'Not: Seçilen fotoğraf kaydedildikten sonra gecikmeli olarak gelebiliyor, biraz beklemeniz gerekebilir.',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         Row(
           children: [
             Padding(
               padding: ProjectDecorations.homeBodySignInButton,
-              child: SquareTile(
-                  imagePath: 'assets/images/login.png',
-                  onTap: () => Navigator.of(context)
-                      .pushReplacement(SquareTileNavigate())),
+              child: Row(
+                children: [
+                  Text('2.'),
+                  SquareTile(
+                      imagePath: 'assets/images/login.png',
+                      onTap: () => Navigator.of(context)
+                          .pushReplacement(SquareTileNavigate())),
+                ],
+              ),
             ),
             Padding(
               padding: ProjectDecorations.homeBodySignOutButton,
@@ -72,6 +77,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+        SizedBox(height: 20),
         CategoryTextFormField(
           textController: textController,
           onChanged: (value) {
@@ -84,6 +90,7 @@ class _HomePageState extends State<HomePage> {
           category: category,
           output: output,
         ),
+        SizedBox(height: 20),
         ImagesBuilder(
           category: category,
           output: output,
