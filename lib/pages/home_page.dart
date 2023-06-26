@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:untitled1/constants/custom_bottom_navigation_bar.dart';
+import 'package:untitled1/constants/padding.dart';
 
 import '../widgets/profile_page/buttons/image_buttons.dart';
 import '../widgets/profile_page/buttons/sign_out_button.dart';
@@ -52,14 +53,23 @@ class _HomePageState extends State<HomePage> {
   Column HomeBody(BuildContext context) {
     return Column(
       children: [
+        Text(
+          'Seçilen fotoğraf kaydedildikten sonra gecikmeli olarak gelebiliyor, biraz beklemeniz gerekebilir.',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SquareTile(
-                imagePath: 'assets/images/google.png',
-                onTap: () => Navigator.of(context)
-                    .pushReplacement(SquareTileNavigate())),
-            SignOutButton(),
+            Padding(
+              padding: ProjectDecorations.homeBodySignInButton,
+              child: SquareTile(
+                  imagePath: 'assets/images/login.png',
+                  onTap: () => Navigator.of(context)
+                      .pushReplacement(SquareTileNavigate())),
+            ),
+            Padding(
+              padding: ProjectDecorations.homeBodySignOutButton,
+              child: SignOutButton(),
+            ),
           ],
         ),
         CategoryTextFormField(

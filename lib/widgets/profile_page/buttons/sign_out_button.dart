@@ -16,6 +16,6 @@ class SignOutButton extends StatelessWidget {
           await AuthService().signOut();
           Navigator.of(context).pushReplacement(SquareTileNavigate());
         },
-        child: Text('Oturumu Kapat'));
+        child: Text('5. Oturumu Kapat'));
   }
 }

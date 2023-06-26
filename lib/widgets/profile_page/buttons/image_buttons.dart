@@ -90,16 +90,16 @@ class _ImageButtonsState extends State<ImageButtons> {
               width: 100,
               color: Colors.red,
               child: Center(
-                child: Text('Galeriden Fotoğraf Seç',
+                child: Text('3. Galeriden Fotoğraf Seç',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        ?.copyWith(color: Colors.blue)),
+                        ?.copyWith(color: Colors.white)),
               ),
             ),
           ),
         ),
-        SizedBox(width: 5),
+        SizedBox(width: 15),
         GestureDetector(
           onTap: () => uploadImage(
             widget.auth.currentUser!.uid,
@@ -110,11 +110,11 @@ class _ImageButtonsState extends State<ImageButtons> {
             width: 100,
             color: Colors.yellow,
             child: Center(
-              child: Text('Seçilen Fotoğrafı Buluta Kaydet',
+              child: Text('4. Seçilen Fotoğrafı Buluta Kaydet',
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      ?.copyWith(color: Colors.blue)),
+                      ?.copyWith(color: Colors.black)),
             ),
           ),
         ),

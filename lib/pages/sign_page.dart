@@ -47,6 +47,7 @@ class _SignPageState extends State<SignPage> {
       body: Column(
         children: [
           EmailTextFormField(),
+          SizedBox(height: 10),
           PasswordTextFormField(),
           SignUpButton(),
           SignInButton(context)
@@ -77,21 +78,23 @@ class _SignPageState extends State<SignPage> {
         child: Text('Kayıt Ol'));
   }
 
-  TextFormField PasswordTextFormField() {
+  TextFormField EmailTextFormField() {
     return TextFormField(
-      controller: passwordController,
+      controller: emailController,
       decoration: InputDecoration(
+        hintText: 'Email giriniz',
         border: InputBorder.none,
-        fillColor: Colors.red,
+        fillColor: Colors.green,
         filled: true,
       ),
     );
   }
 
-  TextFormField EmailTextFormField() {
+  TextFormField PasswordTextFormField() {
     return TextFormField(
-      controller: emailController,
+      controller: passwordController,
       decoration: InputDecoration(
+        hintText: 'Şifre giriniz',
         border: InputBorder.none,
         fillColor: Colors.green,
         filled: true,

@@ -18,7 +18,7 @@ class ImagesBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (auth.currentUser == null) {
-      return Center(child: Text('Soru yüklemek için oturum açın'));
+      return Center(child: Text('1. Soru yüklemek için önce oturum açın'));
     }
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       stream: FirebaseFirestore.instance
