@@ -34,7 +34,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(),
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: HomeBody(context),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: _currentIndex,
@@ -54,7 +56,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Text(
-          'Not: Seçilen fotoğraf kaydedildikten sonra gecikmeli olarak gelebiliyor, biraz beklemeniz gerekebilir.',
+          'Not: Seçilen fotoğraf kaydedildikten sonra gecikmeli gelebiliyor, birazcık beklemeniz gerekebilir.',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         Row(

@@ -3,7 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:untitled1/constants/custom_bottom_navigation_bar.dart';
 import 'package:untitled1/pages/home_page.dart';
-import 'package:untitled1/services/firebase_auth_service.dart';
+
+//Widgets
+import '../widgets/sign_page/email_text_form_field.dart';
+import '../widgets/sign_page/password_text_form_field.dart';
+import '../widgets/sign_page/sign_in_button.dart';
+import '../widgets/sign_page/sign_up_button.dart';
 
 // ignore: must_be_immutable
 class SignPage extends StatefulWidget {
@@ -22,6 +27,7 @@ class _SignPageState extends State<SignPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -48,63 +54,27 @@ class _SignPageState extends State<SignPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            EmailTextFormField(),
+            EmailTextFormField(emailController: emailController),
             SizedBox(height: 10),
-            PasswordTextFormField(),
+            PasswordTextFormField(passwordController: passwordController),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
                 children: [
-                  SignUpButton(),
+                  SignUpButton(
+                    emailController: emailController,
+                    passwordController: passwordController,
+                  ),
                   SizedBox(width: 30.0),
-                  SignInButton(),
+                  SignInButton(
+                    emailController: emailController,
+                    passwordController: passwordController,
+                  ),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget SignUpButton() {
-    return ElevatedButton(
-        onPressed: () => AuthService().registerWithEmailAndPassword(
-            emailController.text, passwordController.text),
-        child: Text('Kaydol'));
-  }
-
-  Widget SignInButton() {
-    return ElevatedButton(
-        onPressed: () {
-          AuthService()
-              .signInWithEmailAndPassword(
-                  emailController.text, passwordController.text)
-              .then((value) => Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                  ));
-        },
-        child: Text('Giriş yap'));
-  }
-
-  TextFormField EmailTextFormField() {
-    return TextFormField(
-      controller: emailController,
-      decoration: InputDecoration(
-        hintText: 'Email giriniz',
-        border: UnderlineInputBorder(),
-      ),
-    );
-  }
-
-  TextFormField PasswordTextFormField() {
-    return TextFormField(
-      controller: passwordController,
-      decoration: InputDecoration(
-        hintText: 'Şifre giriniz',
-        border: UnderlineInputBorder(),
       ),
     );
   }
