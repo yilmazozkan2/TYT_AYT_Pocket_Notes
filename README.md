@@ -1,5 +1,6 @@
 # TYT_AYT_Pocket_Notes
-Cubit will be used instead of GetX during this application rewrite.  
+The purpose of the application is to take a photo of the exam questions and solutions together and store them in the cloud, when needed, to 
+  find the image by category from the application and to remember the question and its solution before taking the exam. 
 **Packages:**  
 cloud_firestore: ^4.8.1  
   firebase_auth: ^4.6.3  
